@@ -49,3 +49,66 @@ ul {
 .game-info {
   margin-left: 20px;
 }
+
+/* my stuff, will clear out above stuff as needed*/
+
+:root {
+  --squareSize: 50px;
+}
+
+.squareContainer {
+  width: var(--squareSize);
+  height: var(--squareSize);
+  background-image: url(./images/dot.svg);
+  background-repeat: no-repeat;
+  float: left;
+}
+
+.line {
+  width: 0;
+  height: 0;
+  opacity: 0.5;
+  position: absolute;
+}
+
+.lineTop {
+  border-left: calc(var(--squareSize) / 2) solid transparent;
+  border-right: calc(var(--squareSize) / 2) solid transparent;
+  border-top: calc(var(--squareSize) / 2) solid #555;
+}
+
+.lineTop.hover {
+  border-top: calc(var(--squareSize) / 2) solid #777;
+}
+
+.lineRight {
+  margin-left: calc(var(--squareSize) / 2);
+  border-right: calc(var(--squareSize) / 2) solid #555;
+  border-bottom: calc(var(--squareSize) / 2) solid transparent;
+  border-top: calc(var(--squareSize) / 2) solid transparent;
+}
+
+.lineRight.hover {
+  border-right: calc(var(--squareSize) / 2) solid #777;
+}
+
+.lineBottom {
+  margin-top: calc(var(--squareSize) / 2);
+  border-left: calc(var(--squareSize) / 2) solid transparent;
+  border-right: calc(var(--squareSize) / 2) solid transparent;
+  border-bottom: calc(var(--squareSize) / 2) solid #555;
+}
+
+.lineBottom.hover {
+  border-bottom: calc(var(--squareSize) / 2) solid #777;
+}
+
+.lineLeft {
+  border-left: calc(var(--squareSize) / 2) solid #555;
+  border-bottom: calc(var(--squareSize) / 2) solid transparent;
+  border-top: calc(var(--squareSize) / 2) solid transparent;
+}
+
+.lineLeft.hover {
+  border-left: calc(var(--squareSize) / 2) solid #777;
+}
