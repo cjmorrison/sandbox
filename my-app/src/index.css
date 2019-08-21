@@ -54,14 +54,48 @@ ul {
 
 :root {
   --squareSize: 50px;
+  --dotSize: 8px;
 }
 
 .squareContainer {
   width: var(--squareSize);
   height: var(--squareSize);
-  background-image: url(./images/dot.svg);
-  background-repeat: no-repeat;
   float: left;
+}
+
+.dot {
+  width: var(--dotSize);
+  height: var(--dotSize);
+  margin-left: calc(var(--dotSize) / -2);
+  margin-top: calc(var(--dotSize) / -2);
+  background-color: #555555;
+  border-radius: calc(var(--dotSize) / 2);
+  position: relative;
+  float: left;
+}
+
+.dot.topLeft {
+  left: 0px;
+  top: 0px;
+}
+
+.dot.topRight {
+  left: calc(var(--squareSize) - (var(--dotSize) / 2));
+  top: 0px;
+}
+
+.dot.bottomLeft {
+  left: calc(var(--dotSize) / -2);
+  top: calc(var(--squareSize));
+}
+
+.dot.last.bottomLeft {
+  margin-left: calc(var(--dotSize) / -1);
+}
+
+.dot.bottomRight {
+  left: calc(var(--squareSize) - (var(--dotSize)));
+  top: calc(var(--squareSize));
 }
 
 .line {
@@ -71,44 +105,44 @@ ul {
   position: absolute;
 }
 
-.lineTop {
+.line.top {
   border-left: calc(var(--squareSize) / 2) solid transparent;
   border-right: calc(var(--squareSize) / 2) solid transparent;
-  border-top: calc(var(--squareSize) / 2) solid #555;
+  border-top: calc(var(--squareSize) / 2) solid #999;
 }
 
-.lineTop.hover {
-  border-top: calc(var(--squareSize) / 2) solid #777;
+.line.top.hover {
+  border-top: calc(var(--squareSize) / 2) solid #ccc;
 }
 
-.lineRight {
+.line.right {
   margin-left: calc(var(--squareSize) / 2);
-  border-right: calc(var(--squareSize) / 2) solid #555;
+  border-right: calc(var(--squareSize) / 2) solid #999;
   border-bottom: calc(var(--squareSize) / 2) solid transparent;
   border-top: calc(var(--squareSize) / 2) solid transparent;
 }
 
-.lineRight.hover {
-  border-right: calc(var(--squareSize) / 2) solid #777;
+.line.right.hover {
+  border-right: calc(var(--squareSize) / 2) solid #ccc;
 }
 
-.lineBottom {
+.line.bottom {
   margin-top: calc(var(--squareSize) / 2);
   border-left: calc(var(--squareSize) / 2) solid transparent;
   border-right: calc(var(--squareSize) / 2) solid transparent;
-  border-bottom: calc(var(--squareSize) / 2) solid #555;
+  border-bottom: calc(var(--squareSize) / 2) solid #999;
 }
 
-.lineBottom.hover {
-  border-bottom: calc(var(--squareSize) / 2) solid #777;
+.line.bottom.hover {
+  border-bottom: calc(var(--squareSize) / 2) solid #ccc;
 }
 
-.lineLeft {
-  border-left: calc(var(--squareSize) / 2) solid #555;
+.line.left {
+  border-left: calc(var(--squareSize) / 2) solid #999;
   border-bottom: calc(var(--squareSize) / 2) solid transparent;
   border-top: calc(var(--squareSize) / 2) solid transparent;
 }
 
-.lineLeft.hover {
-  border-left: calc(var(--squareSize) / 2) solid #777;
+.line.left.hover {
+  border-left: calc(var(--squareSize) / 2) solid #ccc;
 }
