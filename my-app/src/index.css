@@ -55,12 +55,37 @@ ul {
 :root {
   --squareSize: 50px;
   --dotSize: 8px;
+  --lineHoverColor: #666;
 }
 
 .squareContainer {
   width: var(--squareSize);
   height: var(--squareSize);
   float: left;
+}
+
+.squareContainer.topHover {
+  -webkit-box-shadow: inset 0px 2px 0px 0px var(--lineHoverColor);
+  -moz-box-shadow: inset 0px 2px 0px 0px var(--lineHoverColor);
+  box-shadow: inset 0px 2px 0px 0px var(--lineHoverColor);
+}
+
+.squareContainer.rightHover {
+  -webkit-box-shadow: inset -2px 0px 0px 0px var(--lineHoverColor);
+  -moz-box-shadow: inset -2px 0px 0px 0px var(--lineHoverColor);
+  box-shadow: inset -2px 0px 0px 0px var(--lineHoverColor);
+}
+
+.squareContainer.bottomHover {
+  -webkit-box-shadow: inset 0px -2px 0px 0px var(--lineHoverColor);
+  -moz-box-shadow: inset 0px -2px 0px 0px var(--lineHoverColor);
+  box-shadow: inset 0px -2px 0px 0px var(--lineHoverColor);
+}
+
+.squareContainer.leftHover {
+  -webkit-box-shadow: inset 2px 0px 0px 0px var(--lineHoverColor);
+  -moz-box-shadow: inset 2px 0px 0px 0px var(--lineHoverColor);
+  box-shadow: inset 2px 0px 0px 0px var(--lineHoverColor);
 }
 
 .dot {
@@ -98,51 +123,51 @@ ul {
   top: calc(var(--squareSize));
 }
 
-.line {
+.lineHitBox {
   width: 0;
   height: 0;
-  opacity: 0.5;
+  opacity: 0.01;
   position: absolute;
 }
 
-.line.top {
+.lineHitBox.top {
   border-left: calc(var(--squareSize) / 2) solid transparent;
   border-right: calc(var(--squareSize) / 2) solid transparent;
   border-top: calc(var(--squareSize) / 2) solid #999;
 }
 
-.line.top.hover {
+.lineHitBox.top.hover {
   border-top: calc(var(--squareSize) / 2) solid #ccc;
 }
 
-.line.right {
+.lineHitBox.right {
   margin-left: calc(var(--squareSize) / 2);
   border-right: calc(var(--squareSize) / 2) solid #999;
   border-bottom: calc(var(--squareSize) / 2) solid transparent;
   border-top: calc(var(--squareSize) / 2) solid transparent;
 }
 
-.line.right.hover {
+.lineHitBox.right.hover {
   border-right: calc(var(--squareSize) / 2) solid #ccc;
 }
 
-.line.bottom {
+.lineHitBox.bottom {
   margin-top: calc(var(--squareSize) / 2);
   border-left: calc(var(--squareSize) / 2) solid transparent;
   border-right: calc(var(--squareSize) / 2) solid transparent;
   border-bottom: calc(var(--squareSize) / 2) solid #999;
 }
 
-.line.bottom.hover {
+.lineHitBox.bottom.hover {
   border-bottom: calc(var(--squareSize) / 2) solid #ccc;
 }
 
-.line.left {
+.lineHitBox.left {
   border-left: calc(var(--squareSize) / 2) solid #999;
   border-bottom: calc(var(--squareSize) / 2) solid transparent;
   border-top: calc(var(--squareSize) / 2) solid transparent;
 }
 
-.line.left.hover {
+.lineHitBox.left.hover {
   border-left: calc(var(--squareSize) / 2) solid #ccc;
 }

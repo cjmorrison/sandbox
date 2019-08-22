@@ -1,17 +1,17 @@
 import PropsType from "prop-types";
 import React from "react";
 
-const Line = props => {
-  let classNames = `line ${props.orientation}`;
+const LineHitBox = props => {
+  let classNames = `lineHitBox ${props.orientation}`;
   if (props.status) {
     classNames += ` ${props.status}`;
   }
   return <div className={classNames}></div>;
 };
 
-Line.propsTypes = {
+LineHitBox.propsTypes = {
   orientation: PropsType.string.isRequired,
   status: PropsType.string.isRequired
 };
 
-export default Line;
+export default LineHitBox;

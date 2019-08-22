@@ -1,6 +1,6 @@
 import React from "react";
 import PropsType from "prop-types";
-import Line from "./line.js";
+import LineHitBox from "./lineHitBox.js";
 
 class Square extends React.Component {
   static propsTypes = {
@@ -23,9 +23,9 @@ class Square extends React.Component {
     onMouseLeave: PropsType.func.isRequired
   };
 
-  renderLine(orientation) {
+  renderLineHitBox(orientation) {
     return (
-      <Line
+      <LineHitBox
         status={this.props.lineStatus[orientation]}
         orientation={orientation}
       />
@@ -46,17 +46,31 @@ class Square extends React.Component {
       usingDots.push(<div key={2} className="dot bottomLeft" />);
     }
 
+    let classNames = `squareContainer`;
+    if (this.props.lineStatus.top === "hover") {
+      classNames += " topHover";
+    }
+    if (this.props.lineStatus.right === "hover") {
+      classNames += " rightHover";
+    }
+    if (this.props.lineStatus.bottom === "hover") {
+      classNames += " bottomHover";
+    }
+    if (this.props.lineStatus.left === "hover") {
+      classNames += " leftHover";
+    }
+
     return (
       <div
-        className="squareContainer"
+        className={classNames}
         onClick={e => this.props.onClick(e)}
         onMouseMove={this.props.onMouseMove}
         onMouseLeave={this.props.onMouseLeave}
       >
-        {this.renderLine("top")}
-        {this.renderLine("right")}
-        {this.renderLine("bottom")}
-        {this.renderLine("left")}
+        {this.renderLineHitBox("top")}
+        {this.renderLineHitBox("right")}
+        {this.renderLineHitBox("bottom")}
+        {this.renderLineHitBox("left")}
         {usingDots}
       </div>
     );
