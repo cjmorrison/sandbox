@@ -6,11 +6,13 @@ import { checkPointOnTriangle, inverseDirection } from "../helper";
 class Grid extends React.Component {
   static propsTypes = {
     squares: PropsType.object.isRequired,
+    playerInfo: PropsType.array.isRequired,
+    currentPlayer: PropsType.array.isRequired,
     gridWidth: PropsType.number.isRequired,
     gridHeight: PropsType.number.isRequired,
     getSquareNeighbor: PropsType.func.isRequired,
     removeAllLineHovers: PropsType.func.isRequired,
-    onLineClick: PropsType.func.isRequired
+    selectNextPlayer: PropsType.func.isRequired
   };
 
   onSquareClick(e, square) {
@@ -22,15 +24,28 @@ class Grid extends React.Component {
 
     const orientation = this.squareTriCheck(squareElm, mousePos);
     if (orientation) {
+      if (
+        square.lineStatus[orientation] &&
+        square.lineStatus[orientation].indexOf("placedByPlayer_") === 0
+      ) {
+        return;
+      }
       const neigbor = this.props.getSquareNeighbor(square.key, orientation);
       if (neigbor) {
         this.props.setLineStatus(
           neigbor.key,
           inverseDirection(orientation),
-          "placed"
+          `placedByPlayer_${this.props.currentPlayer}`
         );
       }
-      this.props.setLineStatus(square.key, orientation, "placed");
+      this.props.setLineStatus(
+        square.key,
+        orientation,
+        `placedByPlayer_${this.props.currentPlayer}`
+      );
+
+      // will change, if player scores they go again/
+      this.props.selectNextPlayer();
     }
   }
 
@@ -44,7 +59,10 @@ class Grid extends React.Component {
     this.props.removeAllLineHovers();
 
     if (orientation) {
-      if (square.lineStatus[orientation] === "placed") {
+      if (
+        square.lineStatus[orientation] &&
+        square.lineStatus[orientation].indexOf("placedByPlayer_") === 0
+      ) {
         return;
       }
 
@@ -115,6 +133,8 @@ class Grid extends React.Component {
         key={square.key}
         neigbors={square.neigbors}
         lineStatus={square.lineStatus}
+        playerInfo={this.props.playerInfo}
+        currentPlayer={this.props.currentPlayer}
         onClick={e => this.onSquareClick(e, square)}
         onMouseMove={e => this.onSquareHover(e, square)}
         onMouseLeave={e => this.onSquareLeave(e, square)}

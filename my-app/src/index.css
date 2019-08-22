@@ -41,11 +41,6 @@ ul {
   background: #ddd;
 }
 
-.game {
-  display: flex;
-  flex-direction: row;
-}
-
 .game-info {
   margin-left: 20px;
 }
@@ -55,8 +50,12 @@ ul {
 :root {
   --squareSize: 50px;
   --dotSize: 8px;
-  --lineHoverColor: #666;
-  --linePlacedColor: #000;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+  min-width: 550px;
 }
 
 .squareContainer {
@@ -69,38 +68,6 @@ ul {
   width: calc(var(--squareSize) - 4px);
   height: calc(var(--squareSize) - 4px);
   border: 2px solid #eee;
-}
-
-.linesContainer.topHover {
-  border-top: 2px solid var(--lineHoverColor);
-}
-
-.linesContainer.rightHover {
-  border-right: 2px solid var(--lineHoverColor);
-}
-
-.linesContainer.bottomHover {
-  border-bottom: 2px solid var(--lineHoverColor);
-}
-
-.linesContainer.leftHover {
-  border-left: 2px solid var(--lineHoverColor);
-}
-
-.linesContainer.topPlaced {
-  border-top: 2px solid var(--linePlacedColor);
-}
-
-.linesContainer.rightPlaced {
-  border-right: 2px solid var(--linePlacedColor);
-}
-
-.linesContainer.bottomPlaced {
-  border-bottom: 2px solid var(--linePlacedColor);
-}
-
-.linesContainer.leftPlaced {
-  border-left: 2px solid var(--linePlacedColor);
 }
 
 .dot {

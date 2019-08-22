@@ -18,6 +18,8 @@ class Square extends React.Component {
       bottom: PropsType.string.isRequired,
       left: PropsType.string.isRequired
     }),
+    playerInfo: PropsType.array.isRequired,
+    currentPlayer: PropsType.array.isRequired,
     onClick: PropsType.func.isRequired,
     onMouseMove: PropsType.func.isRequired,
     onMouseLeave: PropsType.func.isRequired
@@ -46,31 +48,78 @@ class Square extends React.Component {
       usingDots.push(<div key={2} className="dot bottomLeft" />);
     }
 
-    let linesClassNames = `linesContainer`;
+    const lineStyles = {};
+    let playerNum = this.props.currentPlayer;
+    let playerColor = this.props.playerInfo[playerNum - 1].color;
+    const hoverOpacity = 0.5;
     if (this.props.lineStatus.top === "hover") {
-      linesClassNames += " topHover";
+      lineStyles.borderTopColor = `rgba(${playerColor[0]}, ${playerColor[1]}, ${
+        playerColor[2]
+      }, ${hoverOpacity})`;
     }
     if (this.props.lineStatus.right === "hover") {
-      linesClassNames += " rightHover";
+      lineStyles.borderRightColor = `rgba(${playerColor[0]}, ${
+        playerColor[1]
+      }, ${playerColor[2]}, ${hoverOpacity})`;
     }
     if (this.props.lineStatus.bottom === "hover") {
-      linesClassNames += " bottomHover";
+      lineStyles.borderBottomColor = `rgba(${playerColor[0]}, ${
+        playerColor[1]
+      }, ${playerColor[2]}, ${hoverOpacity})`;
     }
     if (this.props.lineStatus.left === "hover") {
-      linesClassNames += " leftHover";
+      lineStyles.borderLeftColor = `rgba(${playerColor[0]}, ${
+        playerColor[1]
+      }, ${playerColor[2]}, ${hoverOpacity})`;
     }
 
-    if (this.props.lineStatus.top === "placed") {
-      linesClassNames += " topPlaced";
+    if (
+      this.props.lineStatus.top &&
+      this.props.lineStatus.top.indexOf("placedByPlayer_") === 0
+    ) {
+      playerNum = parseInt(
+        this.props.lineStatus.top.replace("placedByPlayer_", "")
+      );
+      playerColor = this.props.playerInfo[playerNum - 1].color;
+      lineStyles.borderTopColor = `rgba(${playerColor[0]}, ${playerColor[1]}, ${
+        playerColor[2]
+      }, 1)`;
     }
-    if (this.props.lineStatus.right === "placed") {
-      linesClassNames += " rightPlaced";
+    if (
+      this.props.lineStatus.right &&
+      this.props.lineStatus.right.indexOf("placedByPlayer_") === 0
+    ) {
+      playerNum = parseInt(
+        this.props.lineStatus.right.replace("placedByPlayer_", "")
+      );
+      playerColor = this.props.playerInfo[playerNum - 1].color;
+      lineStyles.borderRightColor = `rgba(${playerColor[0]}, ${
+        playerColor[1]
+      }, ${playerColor[2]}, 1)`;
     }
-    if (this.props.lineStatus.bottom === "placed") {
-      linesClassNames += " bottomPlaced";
+    if (
+      this.props.lineStatus.bottom &&
+      this.props.lineStatus.bottom.indexOf("placedByPlayer_") === 0
+    ) {
+      playerNum = parseInt(
+        this.props.lineStatus.bottom.replace("placedByPlayer_", "")
+      );
+      playerColor = this.props.playerInfo[playerNum - 1].color;
+      lineStyles.borderBottomColor = `rgba(${playerColor[0]}, ${
+        playerColor[1]
+      }, ${playerColor[2]}, 1)`;
     }
-    if (this.props.lineStatus.left === "placed") {
-      linesClassNames += " leftPlaced";
+    if (
+      this.props.lineStatus.left &&
+      this.props.lineStatus.left.indexOf("placedByPlayer_") === 0
+    ) {
+      playerNum = parseInt(
+        this.props.lineStatus.left.replace("placedByPlayer_", "")
+      );
+      playerColor = this.props.playerInfo[playerNum - 1].color;
+      lineStyles.borderLeftColor = `rgba(${playerColor[0]}, ${
+        playerColor[1]
+      }, ${playerColor[2]}, 1)`;
     }
 
     return (
@@ -81,7 +130,7 @@ class Square extends React.Component {
         onMouseLeave={this.props.onMouseLeave}
       >
         {usingDots}
-        <div className={linesClassNames} />
+        <div className="linesContainer" style={lineStyles} />
         {this.renderLineHitBox("top")}
         {this.renderLineHitBox("right")}
         {this.renderLineHitBox("bottom")}

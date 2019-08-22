@@ -8,18 +8,37 @@ class Game extends React.Component {
         squares: Array(9).fill(null)
       }
     ],
+    // leaving my options open for a potential 3 player mode with hexigons
+    playerInfo: [
+      {
+        name: "The Vermilion Palisades",
+        color: [227, 66, 52],
+        score: 0
+      },
+      {
+        name: "The Ceylon Barriars",
+        color: [100, 149, 237],
+        score: 0
+      }
+    ],
     gridWidth: 10,
     gridHeight: 10,
     squares: null,
     stepNumber: 0,
-    xIsNext: true
+    currentPlayer: 1
   };
 
   componentDidMount() {
+    this.setState({
+      currentPlayer:
+        Math.floor(Math.random() * Math.floor(this.state.playerInfo.length)) + 1
+    });
+
     this.defineSquares();
   }
 
   /*
+  // may add this back in sorry for the mess. at very least I'll want a single undo method for misclicks
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
@@ -38,7 +57,7 @@ class Game extends React.Component {
       xIsNext: !this.state.xIsNext
     });
   }
-  */
+
   jumpTo(step) {
     this.setState({
       stepNumber: step,
@@ -69,6 +88,19 @@ class Game extends React.Component {
     }
     return null;
   }
+  */
+
+  selectNextPlayer = () => {
+    if (this.state.currentPlayer === this.state.playerInfo.length) {
+      this.setState({
+        currentPlayer: 1
+      });
+    } else {
+      this.setState({
+        currentPlayer: this.state.currentPlayer + 1
+      });
+    }
+  };
 
   defineSquares = () => {
     const squares = [];
@@ -160,6 +192,7 @@ class Game extends React.Component {
   };
 
   render() {
+    /*
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = this.calculateWinner(current.squares);
@@ -171,12 +204,25 @@ class Game extends React.Component {
         </li>
       );
     });
+    */
 
     let status;
+    const winner = false;
+
+    const player = this.state.playerInfo[this.state.currentPlayer - 1];
+    const statusColor = {
+      color: `rgb(${player.color[0]}, ${player.color[1]}, ${player.color[2]})`
+    };
+
     if (winner) {
       status = "Winner: " + winner;
     } else {
-      status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+      status = (
+        <div>
+          Current Player:
+          <strong style={statusColor}>{player.name}</strong>
+        </div>
+      );
     }
 
     return (
@@ -184,20 +230,20 @@ class Game extends React.Component {
         <div className="game-board">
           <Grid
             squares={this.state.squares}
+            playerInfo={this.state.playerInfo}
+            currentPlayer={this.state.currentPlayer}
             gridWidth={this.state.gridWidth}
             gridHeight={this.state.gridHeight}
             setLineStatus={this.setLineStatus}
             removeAllLineHovers={this.removeAllLineHovers}
             getSquareNeighbor={this.getSquareNeighbor}
-            onLineClick={e => this.handleLineClick(e)}
+            selectNextPlayer={this.selectNextPlayer}
           />
         </div>
-        {/* }
         <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
+          {status}
+          {/* }<ol>{moves}</ol>{ */}
         </div>
-        { */}
       </div>
     );
   }
