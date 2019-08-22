@@ -46,32 +46,46 @@ class Square extends React.Component {
       usingDots.push(<div key={2} className="dot bottomLeft" />);
     }
 
-    let classNames = `squareContainer`;
+    let linesClassNames = `linesContainer`;
     if (this.props.lineStatus.top === "hover") {
-      classNames += " topHover";
+      linesClassNames += " topHover";
     }
     if (this.props.lineStatus.right === "hover") {
-      classNames += " rightHover";
+      linesClassNames += " rightHover";
     }
     if (this.props.lineStatus.bottom === "hover") {
-      classNames += " bottomHover";
+      linesClassNames += " bottomHover";
     }
     if (this.props.lineStatus.left === "hover") {
-      classNames += " leftHover";
+      linesClassNames += " leftHover";
+    }
+
+    if (this.props.lineStatus.top === "placed") {
+      linesClassNames += " topPlaced";
+    }
+    if (this.props.lineStatus.right === "placed") {
+      linesClassNames += " rightPlaced";
+    }
+    if (this.props.lineStatus.bottom === "placed") {
+      linesClassNames += " bottomPlaced";
+    }
+    if (this.props.lineStatus.left === "placed") {
+      linesClassNames += " leftPlaced";
     }
 
     return (
       <div
-        className={classNames}
-        onClick={e => this.props.onClick(e)}
+        className="squareContainer"
+        onClick={this.props.onClick}
         onMouseMove={this.props.onMouseMove}
         onMouseLeave={this.props.onMouseLeave}
       >
+        {usingDots}
+        <div className={linesClassNames} />
         {this.renderLineHitBox("top")}
         {this.renderLineHitBox("right")}
         {this.renderLineHitBox("bottom")}
         {this.renderLineHitBox("left")}
-        {usingDots}
       </div>
     );
   }

@@ -56,6 +56,7 @@ ul {
   --squareSize: 50px;
   --dotSize: 8px;
   --lineHoverColor: #666;
+  --linePlacedColor: #000;
 }
 
 .squareContainer {
@@ -64,28 +65,42 @@ ul {
   float: left;
 }
 
-.squareContainer.topHover {
-  -webkit-box-shadow: inset 0px 2px 0px 0px var(--lineHoverColor);
-  -moz-box-shadow: inset 0px 2px 0px 0px var(--lineHoverColor);
-  box-shadow: inset 0px 2px 0px 0px var(--lineHoverColor);
+.linesContainer {
+  width: calc(var(--squareSize) - 4px);
+  height: calc(var(--squareSize) - 4px);
+  border: 2px solid #eee;
 }
 
-.squareContainer.rightHover {
-  -webkit-box-shadow: inset -2px 0px 0px 0px var(--lineHoverColor);
-  -moz-box-shadow: inset -2px 0px 0px 0px var(--lineHoverColor);
-  box-shadow: inset -2px 0px 0px 0px var(--lineHoverColor);
+.linesContainer.topHover {
+  border-top: 2px solid var(--lineHoverColor);
 }
 
-.squareContainer.bottomHover {
-  -webkit-box-shadow: inset 0px -2px 0px 0px var(--lineHoverColor);
-  -moz-box-shadow: inset 0px -2px 0px 0px var(--lineHoverColor);
-  box-shadow: inset 0px -2px 0px 0px var(--lineHoverColor);
+.linesContainer.rightHover {
+  border-right: 2px solid var(--lineHoverColor);
 }
 
-.squareContainer.leftHover {
-  -webkit-box-shadow: inset 2px 0px 0px 0px var(--lineHoverColor);
-  -moz-box-shadow: inset 2px 0px 0px 0px var(--lineHoverColor);
-  box-shadow: inset 2px 0px 0px 0px var(--lineHoverColor);
+.linesContainer.bottomHover {
+  border-bottom: 2px solid var(--lineHoverColor);
+}
+
+.linesContainer.leftHover {
+  border-left: 2px solid var(--lineHoverColor);
+}
+
+.linesContainer.topPlaced {
+  border-top: 2px solid var(--linePlacedColor);
+}
+
+.linesContainer.rightPlaced {
+  border-right: 2px solid var(--linePlacedColor);
+}
+
+.linesContainer.bottomPlaced {
+  border-bottom: 2px solid var(--linePlacedColor);
+}
+
+.linesContainer.leftPlaced {
+  border-left: 2px solid var(--linePlacedColor);
 }
 
 .dot {
@@ -120,7 +135,7 @@ ul {
 
 .dot.bottomRight {
   left: calc(var(--squareSize) - (var(--dotSize)));
-  top: calc(var(--squareSize));
+  top: var(--squareSize);
 }
 
 .lineHitBox {
@@ -131,6 +146,7 @@ ul {
 }
 
 .lineHitBox.top {
+  margin-top: calc(var(--squareSize) * -1);
   border-left: calc(var(--squareSize) / 2) solid transparent;
   border-right: calc(var(--squareSize) / 2) solid transparent;
   border-top: calc(var(--squareSize) / 2) solid #999;
@@ -141,6 +157,7 @@ ul {
 }
 
 .lineHitBox.right {
+  margin-top: calc(var(--squareSize) * -1);
   margin-left: calc(var(--squareSize) / 2);
   border-right: calc(var(--squareSize) / 2) solid #999;
   border-bottom: calc(var(--squareSize) / 2) solid transparent;
@@ -152,7 +169,7 @@ ul {
 }
 
 .lineHitBox.bottom {
-  margin-top: calc(var(--squareSize) / 2);
+  margin-top: calc(var(--squareSize) / -2);
   border-left: calc(var(--squareSize) / 2) solid transparent;
   border-right: calc(var(--squareSize) / 2) solid transparent;
   border-bottom: calc(var(--squareSize) / 2) solid #999;
@@ -163,6 +180,7 @@ ul {
 }
 
 .lineHitBox.left {
+  margin-top: calc(var(--squareSize) * -1);
   border-left: calc(var(--squareSize) / 2) solid #999;
   border-bottom: calc(var(--squareSize) / 2) solid transparent;
   border-top: calc(var(--squareSize) / 2) solid transparent;

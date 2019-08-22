@@ -13,7 +13,7 @@ class Grid extends React.Component {
     onLineClick: PropsType.func.isRequired
   };
 
-  onSquareClick(e) {
+  onSquareClick(e, square) {
     const squareElm = e.target.parentElement;
     const mousePos = {
       x: e.clientX - squareElm.offsetLeft,
@@ -21,7 +21,17 @@ class Grid extends React.Component {
     };
 
     const orientation = this.squareTriCheck(squareElm, mousePos);
-    console.log(orientation);
+    if (orientation) {
+      const neigbor = this.props.getSquareNeighbor(square.key, orientation);
+      if (neigbor) {
+        this.props.setLineStatus(
+          neigbor.key,
+          inverseDirection(orientation),
+          "placed"
+        );
+      }
+      this.props.setLineStatus(square.key, orientation, "placed");
+    }
   }
 
   onSquareHover = (e, square) => {
@@ -31,10 +41,13 @@ class Grid extends React.Component {
       y: e.clientY - squareElm.offsetTop
     };
     const orientation = this.squareTriCheck(squareElm, mousePos);
-
     this.props.removeAllLineHovers();
 
     if (orientation) {
+      if (square.lineStatus[orientation] === "placed") {
+        return;
+      }
+
       const neigbor = this.props.getSquareNeighbor(square.key, orientation);
       if (neigbor) {
         this.props.setLineStatus(
@@ -102,7 +115,7 @@ class Grid extends React.Component {
         key={square.key}
         neigbors={square.neigbors}
         lineStatus={square.lineStatus}
-        onClick={e => this.onSquareClick(e)}
+        onClick={e => this.onSquareClick(e, square)}
         onMouseMove={e => this.onSquareHover(e, square)}
         onMouseLeave={e => this.onSquareLeave(e, square)}
       />

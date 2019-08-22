@@ -131,7 +131,7 @@ class Game extends React.Component {
     for (const squareKey in this.state.squares) {
       for (const lineStat in this.state.squares[squareKey].lineStatus) {
         if (this.state.squares[squareKey].lineStatus[lineStat] === "hover") {
-          this.state.squares[squareKey].lineStatus[lineStat] = null;
+          squares[squareKey].lineStatus[lineStat] = null;
         }
       }
     }
