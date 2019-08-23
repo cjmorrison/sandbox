@@ -64,7 +64,13 @@ ul {
   float: left;
 }
 
+.imageContainer {
+  width: var(--squareSize);
+  height: var(--squareSize);
+}
+
 .linesContainer {
+  margin-top: calc(var(--squareSize) * -1);
   width: calc(var(--squareSize) - 4px);
   height: calc(var(--squareSize) - 4px);
   border: 2px solid #eee;

@@ -1,11 +1,14 @@
 import React from "react";
 import PropsType from "prop-types";
-import LineHitBox from "./lineHitBox.js";
+import LineHitBox from "./lineHitBox";
+import PlayerFlag from "./playerFlag";
+import { rgbToHex } from "../helper";
 
 class Square extends React.Component {
   static propsTypes = {
     gridPos: PropsType.string.isRequired,
     key: PropsType.string.isRequired,
+    status: PropsType.string.isRequired,
     neigbors: PropsType.shape({
       top: PropsType.string.isRequired,
       right: PropsType.string.isRequired,
@@ -48,9 +51,27 @@ class Square extends React.Component {
       usingDots.push(<div key={2} className="dot bottomLeft" />);
     }
 
-    const lineStyles = {};
     let playerNum = this.props.currentPlayer;
     let playerColor = this.props.playerInfo[playerNum - 1].color;
+    let iconColor = "#000000";
+    let iconOpacity = 0;
+    if (this.props.status.indexOf("scoredBy_") === 0) {
+      const scoredByPlayer = parseInt(
+        this.props.status.replace("scoredBy_", "")
+      );
+      const scoredByPlayerColor = this.props.playerInfo[scoredByPlayer - 1]
+        .color;
+      iconColor = rgbToHex(
+        scoredByPlayerColor[0],
+        scoredByPlayerColor[1],
+        scoredByPlayerColor[2]
+      );
+      iconOpacity = 1;
+    }
+
+    const lineStyles = {};
+    playerNum = this.props.currentPlayer;
+
     const hoverOpacity = 0.5;
     if (this.props.lineStatus.top === "hover") {
       lineStyles.borderTopColor = `rgba(${playerColor[0]}, ${playerColor[1]}, ${
@@ -130,6 +151,9 @@ class Square extends React.Component {
         onMouseLeave={this.props.onMouseLeave}
       >
         {usingDots}
+        <div className="imageContainer">
+          <PlayerFlag color={iconColor} opacity={iconOpacity} />
+        </div>
         <div className="linesContainer" style={lineStyles} />
         {this.renderLineHitBox("top")}
         {this.renderLineHitBox("right")}

@@ -35,3 +35,8 @@ export function inverseDirection(dir) {
     console.error(`inverseDirection called with unknown direction ${dir}`);
   }
 }
+
+export function rgbToHex(r, g, b) {
+  // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb/5623914#5623914 user casablanca
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}

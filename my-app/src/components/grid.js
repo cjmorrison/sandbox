@@ -12,7 +12,7 @@ class Grid extends React.Component {
     gridHeight: PropsType.number.isRequired,
     getSquareNeighbor: PropsType.func.isRequired,
     removeAllLineHovers: PropsType.func.isRequired,
-    selectNextPlayer: PropsType.func.isRequired
+    handleTurnEnd: PropsType.func.isRequired
   };
 
   onSquareClick(e, square) {
@@ -44,8 +44,8 @@ class Grid extends React.Component {
         `placedByPlayer_${this.props.currentPlayer}`
       );
 
-      // will change, if player scores they go again/
-      this.props.selectNextPlayer();
+      // considering a confirm step here, it'd slow the pace down but prevent accidents.
+      this.props.handleTurnEnd();
     }
   }
 
@@ -131,6 +131,7 @@ class Grid extends React.Component {
       <Square
         gridPos={square.gridPos}
         key={square.key}
+        status={square.status}
         neigbors={square.neigbors}
         lineStatus={square.lineStatus}
         playerInfo={this.props.playerInfo}

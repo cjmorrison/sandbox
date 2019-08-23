@@ -21,8 +21,8 @@ class Game extends React.Component {
         score: 0
       }
     ],
-    gridWidth: 10,
-    gridHeight: 10,
+    gridWidth: 4,
+    gridHeight: 4,
     squares: null,
     stepNumber: 0,
     currentPlayer: 1
@@ -90,6 +90,78 @@ class Game extends React.Component {
   }
   */
 
+  handleTurnEnd = () => {
+    const scoredSquare = this.didPlayerScore();
+    if (scoredSquare) {
+      this.setSquareStatus(
+        scoredSquare.key,
+        "scoredBy_" + this.state.currentPlayer
+      );
+      this.setPlayerScore(
+        this.state.currentPlayer,
+        this.state.playerInfo[this.state.currentPlayer - 1].score + 1
+      );
+      this.checkWin();
+    } else {
+      this.selectNextPlayer();
+    }
+  };
+
+  didPlayerScore = () => {
+    for (const squareID of Object.keys(this.state.squares)) {
+      const square = this.state.squares[squareID];
+      let denied = false;
+      if (square.status === "open") {
+        for (const line of Object.keys(square.lineStatus)) {
+          if (
+            !square.lineStatus[line] ||
+            square.lineStatus[line].indexOf("placedByPlayer_") === -1
+          ) {
+            denied = true;
+            break;
+          }
+        }
+        if (denied) {
+          continue;
+        }
+        return square;
+      }
+    }
+    return false;
+  };
+
+  checkWin = () => {
+    let scoreTotal = 0;
+
+    for (const p in this.state.playerInfo) {
+      const player = this.state.playerInfo[p];
+      scoreTotal += player.score;
+    }
+    if (scoreTotal !== Object.keys(this.state.squares).length) {
+      return;
+    }
+
+    const players = [...this.state.playerInfo];
+    players.sort(function(a, b) {
+      return a.score + b.score;
+    });
+    const winners = [];
+    for (const w in players) {
+      if (winners.length) {
+        if (winners[winners.length - 1].score <= players[w].score) {
+          winners.push(players[w]);
+        }
+      } else {
+        winners.push(players[w]);
+      }
+    }
+    if (winners.length === 1) {
+      alert(`${winners[0].name} has won`);
+    } else {
+      alert(`the game has tied`);
+    }
+  };
+
   selectNextPlayer = () => {
     if (this.state.currentPlayer === this.state.playerInfo.length) {
       this.setState({
@@ -133,6 +205,7 @@ class Game extends React.Component {
         squares[`square_${squareId}`] = {
           gridPos: `${r},${c}`,
           key: `square_${squareId}`,
+          status: "open",
           neigbors: neigbors,
           lineStatus: {
             top: null,
@@ -148,6 +221,18 @@ class Game extends React.Component {
     this.setState({
       squares: squares
     });
+  };
+
+  setPlayerScore = (playerNumber, score) => {
+    const players = [...this.state.playerInfo];
+    players[playerNumber - 1].score = score;
+    this.setState({ playerInfo: players });
+  };
+
+  setSquareStatus = (squareKey, status) => {
+    const squares = { ...this.state.squares };
+    squares[squareKey].status = status;
+    this.setState({ squares: squares });
   };
 
   setLineStatus = (squareKey, line, status) => {
@@ -209,18 +294,41 @@ class Game extends React.Component {
     let status;
     const winner = false;
 
-    const player = this.state.playerInfo[this.state.currentPlayer - 1];
+    let player = this.state.playerInfo[this.state.currentPlayer - 1];
     const statusColor = {
       color: `rgb(${player.color[0]}, ${player.color[1]}, ${player.color[2]})`
     };
 
+    const score = [];
+    for (const p in this.state.playerInfo) {
+      player = this.state.playerInfo[p];
+      const style = {
+        color: `rgb(${player.color[0]}, ${player.color[1]}, ${player.color[2]})`
+      };
+      score.push(
+        <span style={style} key={p + "_score"}>
+          {player.score}
+        </span>
+      );
+      if (parseInt(p) !== this.state.playerInfo.length - 1) {
+        score.push("|");
+      }
+    }
+
+    player = this.state.playerInfo[this.state.currentPlayer - 1];
     if (winner) {
       status = "Winner: " + winner;
     } else {
       status = (
         <div>
           Current Player:
+          <br />
           <strong style={statusColor}>{player.name}</strong>
+          <br />
+          <br />
+          Score:
+          <br />
+          {score}
         </div>
       );
     }
@@ -237,7 +345,7 @@ class Game extends React.Component {
             setLineStatus={this.setLineStatus}
             removeAllLineHovers={this.removeAllLineHovers}
             getSquareNeighbor={this.getSquareNeighbor}
-            selectNextPlayer={this.selectNextPlayer}
+            handleTurnEnd={this.handleTurnEnd}
           />
         </div>
         <div className="game-info">
