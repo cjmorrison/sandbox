@@ -91,23 +91,26 @@ class Game extends React.Component {
   */
 
   handleTurnEnd = () => {
-    const scoredSquare = this.didPlayerScore();
-    if (scoredSquare) {
-      this.setSquareStatus(
-        scoredSquare.key,
-        "scoredBy_" + this.state.currentPlayer
-      );
-      this.setPlayerScore(
-        this.state.currentPlayer,
-        this.state.playerInfo[this.state.currentPlayer - 1].score + 1
-      );
+    const scoredSquares = this.SetScoredSquares();
+    if (scoredSquares.length) {
+      for (const scoredSquare in scoredSquares) {
+        this.setSquareStatus(
+          scoredSquares[scoredSquare].key,
+          "scoredBy_" + this.state.currentPlayer
+        );
+        this.setPlayerScore(
+          this.state.currentPlayer,
+          this.state.playerInfo[this.state.currentPlayer - 1].score + 1
+        );
+      }
       this.checkWin();
     } else {
       this.selectNextPlayer();
     }
   };
 
-  didPlayerScore = () => {
+  SetScoredSquares = () => {
+    const scoredSquares = [];
     for (const squareID of Object.keys(this.state.squares)) {
       const square = this.state.squares[squareID];
       let denied = false;
@@ -124,10 +127,10 @@ class Game extends React.Component {
         if (denied) {
           continue;
         }
-        return square;
+        scoredSquares.push(square);
       }
     }
-    return false;
+    return scoredSquares;
   };
 
   checkWin = () => {
@@ -145,11 +148,13 @@ class Game extends React.Component {
     players.sort(function(a, b) {
       return a.score + b.score;
     });
-    const winners = [];
+    let winners = [];
     for (const w in players) {
       if (winners.length) {
-        if (winners[winners.length - 1].score <= players[w].score) {
+        if (winners[winners.length - 1].score == players[w].score) {
           winners.push(players[w]);
+        } else if (winners[winners.length - 1].score < players[w].score) {
+          winners = [players[w]];
         }
       } else {
         winners.push(players[w]);
