@@ -23,6 +23,7 @@ class Game extends React.Component {
     ],
     gridWidth: 4,
     gridHeight: 4,
+    borderWidth: 2, // needed for the hitbox calculations.
     squares: null,
     stepNumber: 0,
     currentPlayer: 1
@@ -151,7 +152,7 @@ class Game extends React.Component {
     let winners = [];
     for (const w in players) {
       if (winners.length) {
-        if (winners[winners.length - 1].score == players[w].score) {
+        if (winners[winners.length - 1].score === players[w].score) {
           winners.push(players[w]);
         } else if (winners[winners.length - 1].score < players[w].score) {
           winners = [players[w]];
@@ -347,6 +348,7 @@ class Game extends React.Component {
             currentPlayer={this.state.currentPlayer}
             gridWidth={this.state.gridWidth}
             gridHeight={this.state.gridHeight}
+            borderOffset={this.state.borderWidth * 2}
             setLineStatus={this.setLineStatus}
             removeAllLineHovers={this.removeAllLineHovers}
             getSquareNeighbor={this.getSquareNeighbor}

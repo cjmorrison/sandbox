@@ -10,6 +10,7 @@ class Grid extends React.Component {
     currentPlayer: PropsType.array.isRequired,
     gridWidth: PropsType.number.isRequired,
     gridHeight: PropsType.number.isRequired,
+    borderOffset: PropsType.number.isRequired,
     getSquareNeighbor: PropsType.func.isRequired,
     removeAllLineHovers: PropsType.func.isRequired,
     handleTurnEnd: PropsType.func.isRequired
@@ -52,8 +53,8 @@ class Grid extends React.Component {
   onSquareHover = (e, square) => {
     const squareElm = e.target.parentElement;
     const mousePos = {
-      x: e.clientX - squareElm.offsetLeft,
-      y: e.clientY - squareElm.offsetTop
+      x: e.clientX - squareElm.offsetLeft + 4,
+      y: e.clientY - squareElm.offsetTop + 4
     };
     const orientation = this.squareTriCheck(squareElm, mousePos);
     this.props.removeAllLineHovers();
@@ -83,43 +84,46 @@ class Grid extends React.Component {
   };
 
   squareTriCheck(squareElm, mousePos) {
+    const squareWidth = squareElm.offsetWidth + 4;
+    const squareHeight = squareElm.offsetHeight + 4;
+
     if (
-      mousePos.y < squareElm.offsetHeight / 2 &&
+      mousePos.y < squareHeight / 2 &&
       checkPointOnTriangle(
         mousePos,
         { x: 0, y: 0 },
-        { x: squareElm.offsetWidth / 2, y: squareElm.offsetHeight / 2 },
-        { x: squareElm.offsetWidth, y: 0 }
+        { x: squareWidth / 2, y: squareHeight / 2 },
+        { x: squareWidth, y: 0 }
       )
     ) {
       return "top";
     } else if (
-      mousePos.x > squareElm.offsetWidth / 2 &&
+      mousePos.x > squareWidth / 2 &&
       checkPointOnTriangle(
         mousePos,
-        { x: squareElm.offsetWidth, y: 0 },
-        { x: squareElm.offsetWidth / 2, y: squareElm.offsetHeight / 2 },
-        { x: squareElm.offsetWidth, y: squareElm.offsetHeight }
+        { x: squareWidth, y: 0 },
+        { x: squareWidth / 2, y: squareHeight / 2 },
+        { x: squareWidth, y: squareHeight }
       )
     ) {
       return "right";
     } else if (
-      mousePos.y > squareElm.offsetHeight / 2 &&
+      mousePos.y > squareHeight / 2 &&
       checkPointOnTriangle(
         mousePos,
-        { x: 0, y: squareElm.offsetHeight },
-        { x: squareElm.offsetWidth / 2, y: squareElm.offsetHeight / 2 },
-        { x: squareElm.offsetWidth, y: squareElm.offsetHeight }
+        { x: 0, y: squareHeight },
+        { x: squareWidth / 2, y: squareHeight / 2 },
+        { x: squareWidth, y: squareHeight }
       )
     ) {
       return "bottom";
     } else if (
-      mousePos.x < squareElm.offsetWidth / 2 &&
+      mousePos.x < squareWidth / 2 &&
       checkPointOnTriangle(
         mousePos,
         { x: 0, y: 0 },
-        { x: squareElm.offsetWidth / 2, y: squareElm.offsetHeight / 2 },
-        { x: 0, y: squareElm.offsetHeight }
+        { x: squareWidth / 2, y: squareHeight / 2 },
+        { x: 0, y: squareHeight }
       )
     ) {
       return "left";
